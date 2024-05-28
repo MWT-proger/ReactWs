@@ -1,7 +1,7 @@
-// src/WebSocketComponent.js
 import React, { useState, useEffect } from 'react';
 import RequestBodyForm from './RequestBodyForm';
 import { Container, Header, LogContainer, LogMessage } from './styled';
+import ChartComponent from './ChartComponent';
 
 const WebSocketComponent = () => {
     const [progress, setProgress] = useState(0);
@@ -28,14 +28,12 @@ const WebSocketComponent = () => {
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
 
-
             log('Received message: ' + JSON.stringify(data));
             if (data.progress !== undefined) {
                 setProgress(data.progress.percent);
                 setStage(data.progress.stage);
-            } else {
-                setResult(data);
             }
+            setResult(data);
         };
 
         ws.onclose = () => {
@@ -66,7 +64,7 @@ const WebSocketComponent = () => {
             {result && (
                 <div>
                     <h2>Result</h2>
-                    <pre>{JSON.stringify(result, null, 2)}</pre>
+                    <ChartComponent data={result.data} />
                 </div>
             )}
             <LogContainer>
@@ -79,5 +77,6 @@ const WebSocketComponent = () => {
 };
 
 export default WebSocketComponent;
+
 
 // const ws = new ReconnectingWebSocket(`ws://localhost:7000/api/v1/forecast/ws/train-test`);

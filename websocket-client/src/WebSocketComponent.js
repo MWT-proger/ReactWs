@@ -1,7 +1,9 @@
+// src/WebSocketComponent.js
 import React, { useState, useEffect } from 'react';
 import RequestBodyForm from './RequestBodyForm';
 import { Container, Header, LogContainer, LogMessage } from './styled';
 import ChartComponent from './ChartComponent';
+import BASE_URL from './config';
 
 const WebSocketComponent = () => {
     const [progress, setProgress] = useState(0);
@@ -10,14 +12,45 @@ const WebSocketComponent = () => {
     const [logs, setLogs] = useState([]);
     const [socket, setSocket] = useState(null);
 
-    const handleSubmit = ({ jwt, url, requestData }) => {
-        const log = (message) => {
-            setLogs((prevLogs) => [...prevLogs, message]);
-            console.log(message);
-        };
+    const log = (message) => {
+        setLogs((prevLogs) => [...prevLogs, message]);
+        console.log(message);
+    };
 
-        log('Form submitted with: ' + JSON.stringify({ jwt, url, requestData }));
-        const ws = new WebSocket(`${url}?token=${jwt}`);
+    const authenticate = async (username, password) => {
+        try {
+            const response = await fetch(`http://${BASE_URL}/api/v1/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to authenticate');
+            }
+
+            const data = await response.json();
+            return data.access_token;
+        } catch (error) {
+            log('Authentication error: ' + error.message);
+            return null;
+        }
+    };
+
+    const handleSubmit = async ({ username, password, url, requestData }) => {
+        const token = await authenticate(username, password);
+        if (!token) {
+            log('Failed to obtain JWT');
+            return;
+        }
+
+        log('Form submitted with: ' + JSON.stringify({ url, requestData }));
+        const ws = new WebSocket(`${url}?token=${token}`);
 
         ws.onopen = () => {
             log('Connected to WebSocket with URL: ' + url);
@@ -27,7 +60,6 @@ const WebSocketComponent = () => {
 
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
-
             log('Received message: ' + JSON.stringify(data));
             if (data.progress !== undefined) {
                 setProgress(data.progress.percent);
@@ -79,4 +111,5 @@ const WebSocketComponent = () => {
 export default WebSocketComponent;
 
 
-// const ws = new ReconnectingWebSocket(`ws://localhost:7000/api/v1/forecast/ws/train-test`);
+// const ws = new ReconnectingWebSocket(`ws://localhost:7000/api/v1/forecasts/ws/train-test`);
+// const ws = new ReconnectingWebSocket(`ws://localhost:7000/api/v1/anomalies/ws/train-test`);

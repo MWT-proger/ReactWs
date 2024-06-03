@@ -58,6 +58,14 @@ export const Button = styled.button`
   }
 `;
 
+export const Select = styled.select`
+  padding: 8px;
+  margin-bottom: 15px;
+  font-size: 14px;
+  border: 1px solid #e1e4e8;
+  border-radius: 4px;
+`;
+
 export const LogContainer = styled.div`
   margin-top: 20px;
   padding: 10px;
@@ -71,4 +79,30 @@ export const LogContainer = styled.div`
 export const LogMessage = styled.div`
   font-size: 12px;
   color: #586069;
+`;
+
+export const ExampleContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+`;
+
+export const Example = styled.div`
+  background-color: #f0f0f0;
+  padding: 10px;
+  border: 1px solid #e1e4e8;
+  border-radius: 5px;
+  width: 45%;
+
+  pre {
+    background-color: #f6f8fa;
+    padding: 10px;
+    border-radius: 5px;
+    overflow: auto;
+  }
+
+  h3 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
 `;

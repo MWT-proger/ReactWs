@@ -32,12 +32,16 @@ const ChartComponent = ({ data }) => {
     const trainDatasets = createDataset(data.train_ts, 'Train');
     const testDatasets = createDataset(data.test_ts, 'Test');
     const exogDatasets = createDataset(data.exog_ts, 'Exogenous');
+    const testPredDatasets = createDataset(data.test_pred, 'testPred');
+    const testLabalsDatasets = createDataset(data.test_labels, 'testLabals');
 
     // Слияние всех наборов данных
     const allDatasets = [
         ...(trainDatasets || []),
         ...(testDatasets || []),
-        ...(exogDatasets || [])
+        ...(exogDatasets || []),
+        ...(testPredDatasets || []),
+        ...(testLabalsDatasets || [])
     ];
 
     // Подготовка данных для графика

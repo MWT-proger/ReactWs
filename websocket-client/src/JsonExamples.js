@@ -4,29 +4,46 @@ import { ExampleContainer, Example } from './styled';
 
 const JsonExamples = () => {
     const example1 = {
-        key1: "value1",
-        key2: "value2",
-        key3: "value3"
+        file_id: "665db3d90d14a2f245c6e2a6",
+        target_col: "temp_max",
+        algorithm: "DefaultForecaster",
+        algorithm_params: [
+            { parametr: "max_forecast_steps", value: null },
+            { parametr: "granularity", value: null }
+        ],
+        train_percentage: 80,
+        file_mode: "single"
     };
 
     const example2 = {
-        anotherKey1: "anotherValue1",
-        anotherKey2: "anotherValue2",
-        anotherKey3: "anotherValue3"
+        file_id: "665db3d90d14a2f245c6e2a6",
+        columns: ["temp_max"],
+        algorithm: "DefaultDetector",
+        label_column: "temp_min",
+        algorithm_params: [
+            { parametr: "n_threads", value: 1 },
+            { parametr: "granularity", value: null }
+        ],
+        train_percentage: 50,
+        file_mode: "single"
     };
+
 
     return (
         <ExampleContainer>
             <Example>
-                <h3>Example 1</h3>
+                <h3>Forecast Example</h3>
                 <pre>{JSON.stringify(example1, null, 2)}</pre>
+                <button onClick={() => navigator.clipboard.writeText(JSON.stringify(example1, null, 2))}>Copy JSON</button>
             </Example>
             <Example>
-                <h3>Example 2</h3>
+                <h3>Anomaly Example</h3>
                 <pre>{JSON.stringify(example2, null, 2)}</pre>
+                <button onClick={() => navigator.clipboard.writeText(JSON.stringify(example2, null, 2))}>Copy JSON</button>
             </Example>
         </ExampleContainer>
     );
+
 };
 
 export default JsonExamples;

@@ -1,12 +1,14 @@
 // src/RequestBodyForm.js
 import React, { useState } from 'react';
-import { Form, Label, Input, TextArea, Button, Select } from './styled';
+import { Form, Label, Input, TextArea, Button, Select, FormContainer } from './styled';
 import BASE_URL from './config'; // Импортируем BASE_URL
+import JsonExamples from './JsonExamples'; // Импортируем JsonExamples
+
 
 const RequestBodyForm = ({ onSubmit }) => {
     const [username, setUsername] = useState('demo_user');
     const [password, setPassword] = useState('demo_password');
-    const [urlPath, setUrlPath] = useState(`ws://${BASE_URL}/api/v1/forecast/ws/train-test`);
+    const [urlPath, setUrlPath] = useState(`ws://${BASE_URL}/api/v1/forecasts/ws/train-test`);
     const urlPathForecasts = `ws://${BASE_URL}/api/v1/forecasts/ws/train-test`;
     const urlPathAnomalies = `ws://${BASE_URL}/api/v1/anomalies/ws/train-test`;
     const [jsonBody, setJsonBody] = useState('');
@@ -43,43 +45,48 @@ const RequestBodyForm = ({ onSubmit }) => {
     };
 
     return (
-        <Form onSubmit={handleSubmit}>
-            <Label htmlFor="username">Username:</Label>
-            <Input
-                type="text"
-                id="username"
-                name="username"
-                value={username}
-                onChange={handleUsernameChange}
-            />
-            <Label htmlFor="password">Password:</Label>
-            <Input
-                type="password"
-                id="password"
-                name="password"
-                value={password}
-                onChange={handlePasswordChange}
-            />
-            <Label htmlFor="urlPath">Select URL Path:</Label>
-            <Select
-                id="urlPath"
-                name="urlPath"
-                value={urlPath}
-                onChange={handleUrlPathChange}
-            >
-                <option value={urlPathForecasts}>{urlPathForecasts}</option>
-                <option value={urlPathAnomalies}>{urlPathAnomalies}</option>
-            </Select>
-            <Label htmlFor="jsonBody">JSON Body:</Label>
-            <TextArea
-                rows={10}
-                id="jsonBody"
-                value={jsonBody}
-                onChange={handleJsonBodyChange}
-                placeholder="Paste JSON body here..."
-            />
-            <Button type="submit">Send Request</Button>
-        </Form>
+
+        <FormContainer>
+            <JsonExamples />
+            <Form onSubmit={handleSubmit}>
+                <Label htmlFor="username">Username:</Label>
+                <Input
+                    type="text"
+                    id="username"
+                    name="username"
+                    value={username}
+                    onChange={handleUsernameChange}
+                />
+                <Label htmlFor="password">Password:</Label>
+                <Input
+                    type="password"
+                    id="password"
+                    name="password"
+                    value={password}
+                    onChange={handlePasswordChange}
+                />
+                <Label htmlFor="urlPath">Select URL Path:</Label>
+                <Select
+                    id="urlPath"
+                    name="urlPath"
+                    value={urlPath}
+                    onChange={handleUrlPathChange}
+                >
+                    <option value={urlPathForecasts}>{urlPathForecasts}</option>
+                    <option value={urlPathAnomalies}>{urlPathAnomalies}</option>
+                </Select>
+                <Label htmlFor="jsonBody">JSON Body:</Label>
+                <TextArea
+                    rows={10}
+                    id="jsonBody"
+                    value={jsonBody}
+                    onChange={handleJsonBodyChange}
+                    placeholder="Paste JSON body here..."
+                />
+                <Button type="submit">Send Request</Button>
+            </Form>
+
+        </FormContainer>
     );
 };
 

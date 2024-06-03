@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
   background-color: #f6f8fa;
@@ -105,4 +105,11 @@ export const Example = styled.div`
     font-size: 16px;
     margin-bottom: 10px;
   }
+`;
+
+// src/styled.js
+// добавляем новый экспорт
+export const FormContainer = styled.div`
+display: flex;
+flex-direction: column;
 `;
